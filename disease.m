@@ -1,1 +1,8 @@
 % Simulation of disease spreading
+
+% LIST OF TODO'S
+% x initialize agents
+% x move agents
+% spread disease
+% 
+
