@@ -4,7 +4,7 @@ diffusionRate = 0.8;
 infectionProb = 0.6;
 recoverProb = 0.01;
 deathProb = 0;
-T = 100;
+T = 1000;
 dimensions = [100,100];
 nbrOfAgents = 1000;
 radius = 17;
@@ -33,3 +33,5 @@ for t = 1:T
     end
     pause(0.01)
 end
+figure(2)
+plotStats(nbrOfEachState,states)
