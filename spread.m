@@ -3,11 +3,12 @@ function agents = spread(agents,infectionProb)
 % probability infectionProb.
     
     susceptibles = find([agents.State] == 1);
+    positions = [agents(susceptibles).Position];
     infected = find([agents.State] == 2);
     for i = 1:numel(infected)
         if rand < infectionProb
-            newlyInfected = find([agents(susceptibles).Position]==agents(infected(i)).Position);
-            [agents(susceptibles(newlyInfected)).State] = 2;
+            [row,newlyInfected] = find(and([[positions(1,:)]==agents(infected(i)).Position(1)],[[positions(2,:)]==agents(infected(i)).Position(2)]));
+            [agents(susceptibles(newlyInfected)).State] = deal(2);
         end
     end
 end

@@ -5,7 +5,7 @@ function agents = moveAgents(agents,diffusionRate,dimensions)
     % diffusionRate sets the probability of movement for each agent. Input
     % argument dimensions gives dimensions of the area.
     
-    for i=1:length(agents)
+    for i=1:numel(agents)
         if rand < diffusionRate
             direction = randi(4);
             switch direction
@@ -16,7 +16,6 @@ function agents = moveAgents(agents,diffusionRate,dimensions)
                     else
                         agents(i).Position(1) = agents(i).Position(1)+1;
                     end
-                    break;
                 case 2
                     % move left
                     if agents(i).Position(1) == 0
@@ -24,7 +23,6 @@ function agents = moveAgents(agents,diffusionRate,dimensions)
                     else
                         agents(i).Position(1) = agents(i).Position(1)-1;
                     end
-                    break;
                 case 3
                     % move up
                     if agents(i).Position(2) == dimensions(2)
@@ -32,7 +30,6 @@ function agents = moveAgents(agents,diffusionRate,dimensions)
                     else
                         agents(i).Position(2) = agents(i).Position(2)+1;
                     end
-                    break;
                 case 4
                     % move down
                     if agents(i).Position(2) == 0
@@ -40,7 +37,6 @@ function agents = moveAgents(agents,diffusionRate,dimensions)
                     else
                         agents(i).Position(2) = agents(i).Position(2)-1;
                     end
-                    break;
             end
         end
     end

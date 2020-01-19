@@ -1,6 +1,6 @@
 function plotAgents(agents,dimensions)
 % Plots the agents in a figure with dimensions, with a color representing
-% each state
+% each state.
     
     cols = ['b','r','g','k'];
     for i = 1:4
