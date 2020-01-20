@@ -10,10 +10,10 @@ nbrOfAgents = 1000;
 radius = 17;
 states = 3+(deathProb ~= 0);
 
-nbrOfEachState = zeros(states,T);
+nbrOfEachState = zeros(states,T+1);
 
 agents = initializeAgents(nbrOfAgents,dimensions,radius);
-
+nbrOfEachState(:,1) = getStats(agents,states);
 
 figure(1)
 plotAgents(agents,dimensions)
@@ -23,7 +23,7 @@ for t = 1:T
     agents = spread(agents,infectionProb);
     agents = recover(agents,recoverProb,deathProb);
     
-    nbrOfEachState(:,t) = getStats(agents,states);
+    nbrOfEachState(:,t+1) = getStats(agents,states);
     
     plotAgents(agents,dimensions)
     title(['Time step = ',num2str(t)],'FontSize',20)

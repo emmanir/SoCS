@@ -1,0 +1,45 @@
+% Simulation of disease spreading
+
+testLength = 10;
+diffusionRate = 0.8;
+infectionProbs = linspace(0.1,1,testLength-1);
+k = linspace(1,120,testLength);
+deathProb = 0;
+T = 1500;
+dimensions = [100,100];
+nbrOfAgents = 1000;
+radius = 17;
+states = 3+(deathProb ~= 0);
+average = 10;
+
+averageParts = zeros(testLength,testLength-1);
+
+for i = 1:(testLength-1)
+    infectionProb = infectionProbs(i);
+    recoverProbs = infectionProb./k;
+    for r = 1:testLength
+        recoverProb = recoverProbs(r);
+        parts = zeros(average,1);
+        for a = 1:average
+            agents = initializeAgents(nbrOfAgents,dimensions,radius);
+            t = 0;
+            while 1
+                agents = moveAgents(agents,diffusionRate,dimensions);
+                agents = spread(agents,infectionProb);
+                agents = recover(agents,recoverProb,deathProb);
+                t = t+1;
+                if numel(find([agents.State] == 2)) == 0 || numel(find([agents.State] == 1)) == 0
+                    break;
+                end
+            end
+            parts(a) = (numel(find([agents.State] == 2))+numel(find([agents.State] == 3)))/nbrOfAgents;
+            disp(['i: ',num2str(i),', r: ',num2str(r),', a: ',num2str(a),', t: ',num2str(t)])
+        end
+        averageParts(r,i) = sum(parts)/average;
+    end
+end
+
+surf(infectionProbs,k,averageParts)
+xlabel(['Infection probability (\beta)'])
+ylabel(['Ratio of infection probability and recovery probability (k=\beta/\gamma)'])
+zlabel(['Ratio of recovered agents at the end'])

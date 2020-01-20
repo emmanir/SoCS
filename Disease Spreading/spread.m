@@ -5,10 +5,14 @@ function agents = spread(agents,infectionProb)
     susceptibles = find([agents.State] == 1);
     positions = [agents(susceptibles).Position];
     infected = find([agents.State] == 2);
+    spreaders = [];
     for i = 1:numel(infected)
         if rand < infectionProb
-            [row,newlyInfected] = find(and([[positions(1,:)]==agents(infected(i)).Position(1)],[[positions(2,:)]==agents(infected(i)).Position(2)]));
-            [agents(susceptibles(newlyInfected)).State] = deal(2);
+            spreaders(end+1) = i;
         end
+    end
+    for i = 1:numel(spreaders)
+        [row,newlyInfected] = find(and([[positions(1,:)]==agents(infected(spreaders(i))).Position(1)],[[positions(2,:)]==agents(infected(spreaders(i))).Position(2)]));
+        [agents(susceptibles(newlyInfected)).State] = deal(2);
     end
 end
