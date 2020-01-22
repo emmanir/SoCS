@@ -57,11 +57,25 @@ relSimFireSize = sort(relSimFireSize,'descend');
 cCDF = (1:numel(relFireSize))./numel(relFireSize);
 
 figure(2)
-loglog(relFireSize,cCDF,'.','MarkerSize',10);
-hold on
-loglog(relSimFireSize,cCDF,'.','MarkerSize',10);
-xlabel('Relative fire size','FontSize',20)
-ylabel('cCDF','FontSize',20)
+plot2cCDF(relFireSize,relSimFireSize,cCDF,cCDF,false)
 legend('Simulated data','Generated data','FontSize',15,'Location','Southwest')
 hold off
 
+linFit = fitlm(log(relFireSize(round(numel(relFireSize)./4):end)),log(cCDF(round(numel(cCDF)./4):end)),'linear');
+
+beta = linFit.Coefficients.Estimate(1);
+k = linFit.Coefficients.Estimate(2);
+tau = 1-k
+
+gpl = sort(generatePowerLaw(min(relFireSize),max(relFireSize),tau,numel(relFireSize)),'descend');
+
+y = exp(beta).*relFireSize.^(k);
+
+figure(3)
+plot2cCDF(relFireSize,relFireSize,cCDF,y,true)
+legend('Simulated data','Linear fit','FontSize',15,'Location','Southwest')
+hold off
+
+figure(4)
+plot2cCDF(relFireSize,gpl,cCDF,cCDF,false)
+legend('Simulated data','Generated power law data','FontSize',15,'Location','Southwest')
